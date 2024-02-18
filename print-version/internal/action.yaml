@@ -1,0 +1,18 @@
+---
+name: print-version
+
+description: the internal source for the parent "print-version" action
+
+# inputs:
+#   who-to-greet:
+#     description: Who to greet
+#     required: true
+#     default: World
+
+# outputs:
+#   time:
+#     description: The time we greeted you
+
+runs:
+  using: node20
+  main: index.js

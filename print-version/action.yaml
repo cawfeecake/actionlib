@@ -1,0 +1,41 @@
+---
+name: print-version
+
+description: prints the version of NodeJS that's available
+
+# inputs:
+#   who-to-greet:
+#     description: Who to greet
+#     required: true
+#     default: World
+
+# outputs:
+#   random-number:
+#     description: Random number
+#     value: ${{ steps.random-number-generator.outputs.random-number }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Before action call: print NodeJS version'
+      shell: bash
+      run: node --version
+
+    - name: "[DEBUG]: show what's in the action dir"
+      shell: bash
+      run: tree -a ${{ github.action_path }}
+
+    - name: Link internal source code
+      shell: bash
+      env:
+        INTERNAL_ACTION_PATH: ${{ github.action_path }}/internal
+        EXPECTED_ACTION_PATH: .github/_actions/internal/print-version
+      run: |
+        mkdir -p "$(dirname $EXPECTED_ACTION_PATH)"
+        ln -fs "$INTERNAL_ACTION_PATH" "$EXPECTED_ACTION_PATH"
+
+    - uses: ./.github/_actions/internal/print-version
+
+    - name: 'Before action call: print NodeJS version'
+      shell: bash
+      run: node --version
